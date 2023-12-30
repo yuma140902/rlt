@@ -1,4 +1,4 @@
-use clap::{Parser, Subcommand};
+use clap::{Parser, Subcommand, ValueEnum};
 
 #[derive(Debug, Parser)]
 #[command(author, version, about, long_about = None)]
@@ -14,12 +14,21 @@ enum Commands {
 }
 
 #[derive(Debug, Parser)]
-struct BuildArgs {}
+struct BuildArgs {
+    #[clap(
+        short = 'e',
+        long = "latex-engine",
+        help = "LaTeX engine",
+        default_value = "uplatex"
+    )]
+    latex_engine: Option<LatexEngine>,
+}
 
-impl Default for BuildArgs {
-    fn default() -> Self {
-        Self {}
-    }
+#[allow(non_camel_case_types)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
+enum LatexEngine {
+    #[clap(name = "uplatex")]
+    upLaTeX,
 }
 
 fn main() {
