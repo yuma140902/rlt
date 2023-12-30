@@ -1,3 +1,5 @@
+use std::process::Command;
+
 use clap::{Parser, Subcommand, ValueEnum};
 
 #[derive(Debug, Parser)]
@@ -34,5 +36,21 @@ enum LatexEngine {
 fn main() {
     let args = Args::parse();
 
-    dbg!(&args);
+    match args.subcommand {
+        Commands::Build(args) => build(args),
+    }
+}
+
+fn build(_args: BuildArgs) {
+    let mut command = Command::new("uplatex");
+    command.args(&["main.ltx"]);
+    command.spawn().expect("Failed to run uplatex");
+
+    let mut command = Command::new("uplatex");
+    command.args(&["main.ltx"]);
+    command.spawn().expect("Failed to run uplatex");
+
+    let mut command = Command::new("uplatex");
+    command.args(&["main.ltx"]);
+    command.spawn().expect("Failed to run uplatex");
 }
